@@ -31,7 +31,20 @@ def filter_datum(fields: List[str],
     return message
 
 
-# class RedactingFormatter(logging.Formatter):
-#     """Redacting formatter class"""
-#    REDACTION = "***"
-#    FORMAT = "[]"
+class RedactingFormatter(logging.Formatter):
+    """Redacting formatter class"""
+    REDACTION = "***"
+    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)s-15s: %(message)s"
+    SEPARATOR = ";"
+
+    def __ini__(self, fields: List[str]):
+        """Initialize redacting formatter"""
+        self.fields = list(fields)
+        super(RedactingFormatter, self).__init__(self.FORMAT)
+
+    def format(self, record: logging.LogRecord) -> str:
+        """format method to redact sensitive information"""
+        return filter_datum(self.fields,
+                            self.REDACTION,
+                            super().format(record),
+                            self.SEPARATOR)

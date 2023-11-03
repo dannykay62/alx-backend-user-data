@@ -7,6 +7,5 @@ from bcrypt import hashpw, salt
 
 def hash_password(password: str) -> bytes:
     """Use the bcrypt package to perform the hashing (with hashpw)."""
-    hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-    if bcrypt.checkpw(password, hashed):
-        return hashed
+    password, salt = bytes(password.encode()), salt()
+    return hashpw(password, salt)

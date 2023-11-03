@@ -9,3 +9,10 @@ def hash_password(password: str) -> bytes:
     """Use the bcrypt package to perform the hashing (with hashpw)."""
     hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
     return hashed
+
+
+def is_valid(hashed_password: bytes, password: str) -> bool:
+    """validate hashed vs provided password"""
+    from bcrypt import checkpw
+
+    return checkpw(password.encode('UTF-8'), hashed_password)

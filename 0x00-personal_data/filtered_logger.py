@@ -70,11 +70,11 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     Use the os module to obtain credentials from the environment
     Use the module mysql-connector-python to connect to the MySQL database
     """
-    from os import environ as env
-    user = os.env['PERSONAL_DATA_DB_USERNAME']
-    pwd = os.env['PERSONAL_DATA_DB_PASSWORD']
-    host = os.env['PERSONAL_DATA_DB_HOST']
-    db = os.env['PERSONAL_DATA_DB_NAME']
+    from os import environ
+    user = os.environ['PERSONAL_DATA_DB_USERNAME']
+    pwd = os.environ['PERSONAL_DATA_DB_PASSWORD']
+    host = os.environ['PERSONAL_DATA_DB_HOST']
+    db = os.environ['PERSONAL_DATA_DB_NAME']
     return mysql.connector.connect(user=user,
                                    password=pwd,
                                    host=host,

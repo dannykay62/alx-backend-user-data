@@ -49,45 +49,42 @@ class RedactingFormatter(logging.Formatter):
                             super().format(record),
                             self.SEPARATOR)
 
-    def get_logger() -> logging.Logger:
-        """ returns a logging.Logger object"""
-        logger = logging.getLogger("user_data")
-        logger.setLevel(logging.INFO)
-        logger.propagate = False
 
-        handler = logging.StreamHandler()
-        handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
+def get_logger() -> logging.Logger:
+    """ returns a logging.Logger object"""
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    handler = logging.StreamHandler()
+    handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
+    logger.addHandler(handler)
+    return logger
 
-        logger.addHandler(handler)
-        return logger
-    
-    def get_db() -> mysql.connector.connection.MySQLConnection:
-        """
-        ----------------------------------------------------------------
-        METHOD: get_db function that returns a connector to the database
-        ----------------------------------------------------------------
-        DESCRIPTION:
-        Use the os module to obtain credentials from the environment
-        Use the module mysql-connector-python to connect to the MySQL database
-        """
-        from os import environ as env
 
-        user = os.env['PERSONAL_DATA_DB_USERNAME']
-        pwd = os.env['PERSONAL_DATA_DB_PASSWORD']
-        host = os.env['PERSONAL_DATA_DB_HOST']
-        db = os.env['PERSONAL_DATA_DB_NAME']
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """
+    ----------------------------------------------------------------
+    METHOD: get_db function that returns a connector to the database
+    ----------------------------------------------------------------
+    DESCRIPTION:
+    Use the os module to obtain credentials from the environment
+    Use the module mysql-connector-python to connect to the MySQL database
+    """
+    from os import environ as env
+    user = os.env['PERSONAL_DATA_DB_USERNAME']
+    pwd = os.env['PERSONAL_DATA_DB_PASSWORD']
+    host = os.env['PERSONAL_DATA_DB_HOST']
+    db = os.env['PERSONAL_DATA_DB_NAME']
+    return mysql.connector.connect(user=user,
+                                   password=pwd,
+                                   host=host,
+                                   database=db)
 
-        return mysql.connector.connect(user=user,
-                                       password=pwd,
-                                       host=host,
-                                       database=db)
-    
 
-    if __name__ == "__main__":
-        """Main function for the module"""
-        db_data = get_db()
-        db_query = db_data.cursor()
-        db_query.execute('SELECT * FROM users;')
-
-        for rows in db_query:
-            print(''.join(str(rows)))
+if __name__ == "__main__":
+    """Main function for the module"""
+    db_data = get_db()
+    db_query = db_data.cursor()
+    db_query.execute('SELECT * FROM users;')
+    for rows in db_query:
+        print(''.join(str(rows)))

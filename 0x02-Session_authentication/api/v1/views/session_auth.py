@@ -6,8 +6,8 @@ from models.user import User
 from os import getenv
 
 
-@app_views.route('/auth_seesion/login', methods=['POST'],
-                 strict_slashes=False)
+@app_views.route('/auth_seesion/login', methods=['POST'], strict_slashes=False
+                 )
 def login() -> str:
     """app view for login route with a POST method"""
     u_email = request.form.get('email')

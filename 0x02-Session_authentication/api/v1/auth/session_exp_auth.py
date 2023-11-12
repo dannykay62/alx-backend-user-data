@@ -43,7 +43,7 @@ class SessionExpAuth(SessionAuth):
         """If session_dict is None, return None"""
         if session_dict is None or session_dict.get("created_at") is None:
             return None
-        # session_dict = self.user_id_by_session_id.get(session_id)
+
         """return user_id if session_duration is negative or 0"""
         if self.session_duration <= 0:
             return session_dict["created_at"]

@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 
 class SessionExpAuth(SessionAuth):
     """Session expiration class that inherits from SessionAuth"""
+
     def __init__(self):
         """Constructor for SessionExpAuth class"""
         super().__init__()

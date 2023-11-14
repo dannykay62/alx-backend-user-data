@@ -8,7 +8,7 @@ Auth = Auth()
 
 
 @app.route('/', methods=['GET'], strict_slashes=False)
-def index():
+def welcome():
     """A basic flask application that returns JSON"""
     return jsonify({"message": "Bienvenue"})
 
@@ -26,4 +26,4 @@ def users():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port="5000")

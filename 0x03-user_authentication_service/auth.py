@@ -12,6 +12,11 @@ def _hash_password(password: str) -> bytes:
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
 
+def _generate_uuid() -> str:
+    """return a string representation of a new UUID"""
+    return str(uuid4())
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -31,3 +36,24 @@ class Auth:
             return user
         else:
             raise ValueError('User {email} already exists')
+
+    def valid_login(self, email: str, password: str) -> bool:
+        """Validates login, if the user are valid or not"""
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            return False
+        else:
+            return bcrypt.checkpwd(password=password.encode('utf-8'),
+                                   _hash_password=user.hashed_password)
+
+    def create_session(self, email: str) -> str:
+        """takes an email string argument and returns the string session ID"""
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            return NoResultFound
+        else:
+            session_id = _generate_uuid()
+            self._db.update_user(user.id, session_id=session_id)
+            return session_id

@@ -7,7 +7,7 @@ app = Flask(__name__)
 Auth = Auth()
 
 
-@app.route('/', methods=['GET'], strict_slashes=False)
+@app.route('/', methods=['GET'])
 def welcome():
     """A basic flask application that returns JSON"""
     return jsonify({"message": "Bienvenue"})

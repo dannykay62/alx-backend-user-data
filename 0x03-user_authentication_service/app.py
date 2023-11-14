@@ -11,3 +11,7 @@ Auth = Auth()
 def index():
     """A basic flask application that returns JSON"""
     return jsonify({"message": "Nienvenue"})
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port="5000")

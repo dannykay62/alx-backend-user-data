@@ -24,6 +24,7 @@ def users():
     except Exception:
         return jsonify({"message": "email already registered"}), 400
 
+
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login():
     """create a new session for the user, store it the session ID as a cookie
@@ -38,6 +39,7 @@ def login():
     response.set_cookie('session_id', session_id)
     return response
 
+
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout():
     """Find the user with the requested session ID. If the user exists destroy
@@ -50,6 +52,7 @@ def logout():
     AUTH.destroy_session(user.id)
     return redirect('/')
 
+
 @app.route('/profile', methods=['GET'], strict_slashes=False)
 def profile():
     """Create user profile using the session_id cookie"""
@@ -58,6 +61,7 @@ def profile():
     if session_id is None or user is None:
         abort(403)
     return jsonify({"email": user.email}), 200
+
 
 @app.route('/reset_password', methods=['POST'], strict_slashes=False)
 def get_reset_password_token():
@@ -71,6 +75,7 @@ def get_reset_password_token():
     except Exception:
         abort(403)
     return jsonify({"email": email, "message": "Password"}), 200
+
 
 @app.route('/reset_password', methods=['PUT'], strict_slashes=False)
 def update_password():

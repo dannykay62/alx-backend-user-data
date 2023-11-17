@@ -29,7 +29,7 @@ class Auth:
         """creates a user based on the parameters supplied and
         return the User object"""
         try:
-            user = self.db.find_user_by(email)
+            user = self._db.find_user_by(email=email)
         except NoResultFound:
             pwd = _hash_password(password)
             user = self._db.add_user(email, pwd)

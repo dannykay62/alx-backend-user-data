@@ -32,8 +32,8 @@ class DB:
     def add_user(self, email: str, hashed_password: str) -> User:
         """save the user to the database and return User object"""
         user = User(email=email, hashed_password=hashed_password)
-        self.__session.add(user)
-        self.__session.commit()
+        self._session.add(user)
+        self._session.commit()
         return user
 
     def find_user_by(self, **kwargs) -> User:
@@ -42,7 +42,7 @@ class DB:
         """
         if kwargs is None:
             raise InvalidRequestError
-        user = self.__session.query(User).filterBy(**kwargs).first
+        user = self._session.query(User).filterBy(**kwargs).first
         if user is None:
             raise NoResultFound
         return user

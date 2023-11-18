@@ -27,16 +27,16 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """ save the user to the database and returns a User object """
+        """save the user to the database and return User object"""
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
         return user
 
     def find_user_by(self, **kwargs) -> User:
-        """ takes in arbitrary keyword arguments and returns the first row
-            found in the users table as filtered by the method’s input
-            arguments """
+        """takes in arbitrary keyword arguments and returns the first row
+        found in the users table as filtered by the method input arguments
+        """
         if kwargs is None:
             raise InvalidRequestError
         user = self._session.query(User).filter_by(**kwargs).first()
@@ -45,9 +45,10 @@ class DB:
         return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
-        """ locate the user to update, then will update the user’s attributes
-            as passed in the method’s arguments then commit changes to the
-            database """
+        """takes as argument a required user_id integer and arbitrary keyword
+        arguments, and returns None
+        update the user attributes as passed in the method’s arguments
+        then commit changes to the database"""
         _id = self.find_user_by(id=user_id)
         for key, value in kwargs.items():
             if not hasattr(_id, key):
